@@ -15,7 +15,7 @@
     </plugin>
 
     <link name='chassis'>
-      <pose>0 0 0.059 0 0 0</pose>
+      <pose>0 0 0.022 0 0 0</pose>
 
       <inertial>
         <mass>10</mass>
@@ -40,7 +40,7 @@
     </link>
 
     <link name='left_wheel'>
-      <pose relative_to='chassis'>-0.106 0 -0.015 0 1.57 0</pose>
+      <pose relative_to='chassis'>-0.106 0 0.022 0 1.57 0</pose>
 
       <inertial>
         <mass>10</mass>
@@ -74,7 +74,7 @@
     </link>
 
     <link name='right_wheel'>
-      <pose relative_to='chassis'>0.106 0 -0.015 0 1.57 0</pose>
+      <pose relative_to='chassis'>0.106 0 0.022 0 1.57 0</pose>
 
       <inertial>
         <mass>10</mass>
@@ -108,7 +108,7 @@
     </link>
 
     <link name='caster_wheel'>
-      <pose relative_to='chassis'>0 -0.1765 -0.0295 0 0 0</pose>
+      <pose relative_to='chassis'>0 -0.1765 -0.011 0 0 0</pose>
       <inertial>
         <mass>5</mass>
         <inertia>
@@ -121,7 +121,7 @@
       <visual name='visual'>
         <geometry>
           <sphere>
-            <radius>0.0295</radius>
+            <radius>0.011</radius>
           </sphere>
         </geometry>
       </visual>
@@ -129,7 +129,7 @@
       <collision name='collision'>
         <geometry>
           <sphere>
-            <radius>0.0295</radius>
+            <radius>0.011</radius>
           </sphere>
         </geometry>
       </collision>
@@ -144,6 +144,9 @@
           <lower>-1.79769e+308</lower>
           <upper>1.79769e+308</upper>
         </limit>
+        <dynamics>
+          <friction>12.031606150200002</friction>
+        </dynamics>
       </axis>
     </joint>
 
@@ -156,6 +159,9 @@
           <lower>-1.79769e+308</lower>
           <upper>1.79769e+308</upper>
         </limit>
+        <dynamics>
+          <friction>12.031606150200002</friction>
+        </dynamics>
       </axis>
     </joint>
 
@@ -222,17 +228,11 @@
     </joint>
 
     <link name="hokuyo_link">
-      <visual name="visual">
-        <geometry>
-          <box>
-            <size>0.01 0.01 0.01</size>
-          </box>
-        </geometry>
-      </visual>
+
 
       <sensor name="head_hokuyo_sensor" type="ray">
           <always_on>true</always_on>
-          <visualize>false</visualize>
+          <visualize>true</visualize>
           <pose relative_to='chassis'>0 -0.155 0.054 0 0 0</pose>
           <update_rate>100</update_rate>
           <ray>
