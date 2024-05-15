@@ -29,6 +29,7 @@ ament_python_install_package(${PROJECT_NAME})
 install(PROGRAMS
 	scripts/camera_node.py
 	scripts/control_node.py
+  scripts/lidar_node.py
 	DESTINATION lib/${PROJECT_NAME}
 )
 
