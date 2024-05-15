@@ -22,3 +22,8 @@
    ros2 run ttfest_pkg control_node.py
 ```
 
+## LIDAR'ı test etmek için
+```bash
+   ros2 run ttfest_pkg lidar_node.py
+```
+
