@@ -1,0 +1,1615 @@
+<sdf version='1.7'>
+  <world name='default'>
+    <gravity>0 0 -9.8</gravity>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <physics type='ode'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>0</shadows>
+    </scene>
+    <wind/>
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>0</latitude_deg>
+      <longitude_deg>0</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+    <light name='sun' type='directional'>
+      <cast_shadows>1</cast_shadows>
+      <pose>0 0 10 0 -0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    <model name='ttfestcar'>
+      <plugin name='diff_drive' filename='libgazebo_ros_diff_drive.so'>
+        <left_joint>left_wheel_joint</left_joint>
+        <right_joint>right_wheel_joint</right_joint>
+        <wheel_separation>0.182</wheel_separation>
+        <wheel_diameter>0.088</wheel_diameter>
+        <command_topic>cmd_vel</command_topic>
+        <publish_odom>1</publish_odom>
+        <publish_odom_tf>1</publish_odom_tf>
+        <publish_wheel_tf>0</publish_wheel_tf>
+        <odometry_topic>odom</odometry_topic>
+      </plugin>
+      <link name='chassis'>
+        <pose>0 0 0.022 0 -0 0</pose>
+        <inertial>
+          <mass>10</mass>
+          <inertia>
+            <ixx>0.0679365</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.132214</iyy>
+            <iyz>0</iyz>
+            <izz>0.0749439</izz>
+          </inertia>
+          <pose>0 0 0 0 -0 0</pose>
+        </inertial>
+        <inertial>
+          <mass>10</mass>
+          <auto>1</auto>
+        </inertial>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://ttfestcar/meshes/rascar.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://ttfestcar/meshes/rascar.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <link name='left_wheel'>
+        <pose relative_to='chassis'>-0.106 0 0.022 0 1.57 0</pose>
+        <inertial>
+          <mass>10</mass>
+          <inertia>
+            <ixx>0.0016</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.0016</iyy>
+            <iyz>0</iyz>
+            <izz>0.00088</izz>
+          </inertia>
+          <pose>0 0 0 0 -0 0</pose>
+        </inertial>
+        <visual name='visual'>
+          <geometry>
+            <cylinder>
+              <radius>0.044</radius>
+              <length>0.03</length>
+            </cylinder>
+          </geometry>
+        </visual>
+        <collision name='collision'>
+          <geometry>
+            <cylinder>
+              <radius>0.044</radius>
+              <length>0.03</length>
+            </cylinder>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <link name='right_wheel'>
+        <pose relative_to='chassis'>0.106 0 0.022 0 1.57 0</pose>
+        <inertial>
+          <mass>10</mass>
+          <inertia>
+            <ixx>0.0016</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.0016</iyy>
+            <iyz>0</iyz>
+            <izz>0.00088</izz>
+          </inertia>
+          <pose>0 0 0 0 -0 0</pose>
+        </inertial>
+        <visual name='visual'>
+          <geometry>
+            <cylinder>
+              <radius>0.044</radius>
+              <length>0.03</length>
+            </cylinder>
+          </geometry>
+        </visual>
+        <collision name='collision'>
+          <geometry>
+            <cylinder>
+              <radius>0.044</radius>
+              <length>0.03</length>
+            </cylinder>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <link name='caster_wheel'>
+        <pose relative_to='chassis'>0 -0.1765 -0.011 0 -0 0</pose>
+        <inertial>
+          <mass>5</mass>
+          <inertia>
+            <ixx>0.000242</ixx>
+            <iyy>0.000242</iyy>
+            <izz>0.000242</izz>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+          </inertia>
+          <pose>0 0 0 0 -0 0</pose>
+        </inertial>
+        <visual name='visual'>
+          <geometry>
+            <sphere>
+              <radius>0.011</radius>
+            </sphere>
+          </geometry>
+        </visual>
+        <collision name='collision'>
+          <geometry>
+            <sphere>
+              <radius>0.011</radius>
+            </sphere>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='left_wheel_joint' type='revolute'>
+        <parent>chassis</parent>
+        <child>left_wheel</child>
+        <axis>
+          <xyz expressed_in='__model__'>1 0 0</xyz>
+          <limit>
+            <lower>-1.79769e+308</lower>
+            <upper>1.79769e+308</upper>
+          </limit>
+          <dynamics>
+            <friction>12.0316</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <joint name='right_wheel_joint' type='revolute'>
+        <parent>chassis</parent>
+        <child>right_wheel</child>
+        <axis>
+          <xyz expressed_in='__model__'>1 0 0</xyz>
+          <limit>
+            <lower>-1.79769e+308</lower>
+            <upper>1.79769e+308</upper>
+          </limit>
+          <dynamics>
+            <friction>12.0316</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <joint name='caster_wheel_joint' type='ball'>
+        <parent>chassis</parent>
+        <child>caster_wheel</child>
+        <dynamics>
+          <friction>12.031606150200002</friction>
+        </dynamics>
+      </joint>
+      <link name='camera_link'>
+        <pose relative_to='chassis'>0 -0.144 0.0975 0 0 -1.57</pose>
+        <inertial>
+          <mass>0.1</mass>
+          <inertia>
+            <ixx>0.000166667</ixx>
+            <iyy>0.000166667</iyy>
+            <izz>0.000166667</izz>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+          </inertia>
+          <pose>0 0 0 0 -0 0</pose>
+        </inertial>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>0.01 0.01 0.01</size>
+            </box>
+          </geometry>
+        </visual>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.1</size>
+            </box>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <sensor name='camera' type='camera'>
+          <camera>
+            <horizontal_fov>1.08559</horizontal_fov>
+            <image>
+              <width>829</width>
+              <height>621</height>
+            </image>
+            <clip>
+              <near>0.1</near>
+              <far>100</far>
+            </clip>
+          </camera>
+          <plugin name='camera_controller' filename='libgazebo_ros_camera.so'>
+            <always_on>1</always_on>
+            <update_rate>30</update_rate>
+            <cameraName>/camera</cameraName>
+            <imageTopicName>image_raw</imageTopicName>
+            <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+            <frameName>camera</frameName>
+          </plugin>
+        </sensor>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='camera_joint' type='fixed'>
+        <pose relative_to='camera_link'>0 0 0 0 -0 0</pose>
+        <parent>chassis</parent>
+        <child>camera_link</child>
+      </joint>
+      <link name='hokuyo_link'>
+        <sensor name='head_hokuyo_sensor' type='ray'>
+          <always_on>1</always_on>
+          <visualize>0</visualize>
+          <pose relative_to='chassis'>0 -0.155 0.054 0 -0 0</pose>
+          <update_rate>100</update_rate>
+          <ray>
+            <scan>
+              <horizontal>
+                <samples>2000</samples>
+                <resolution>0.2</resolution>
+                <min_angle>-3.14</min_angle>
+                <max_angle>3.14</max_angle>
+              </horizontal>
+              <vertical>
+                <samples>1</samples>
+                <min_angle>0</min_angle>
+                <max_angle>0</max_angle>
+              </vertical>
+            </scan>
+            <range>
+              <min>0.15</min>
+              <max>6</max>
+              <resolution>0.5</resolution>
+            </range>
+          </ray>
+          <plugin name='gazebo_ros_head_hokuyo_controller' filename='libgazebo_ros_ray_sensor.so'>
+            <ros>
+              <namespace>/lidar</namespace>
+              <remapping>~/out:=data</remapping>
+            </ros>
+            <output_type>sensor_msgs/LaserScan</output_type>
+            <frameName>hokuyo_link</frameName>
+          </plugin>
+        </sensor>
+        <self_collide>0</self_collide>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+          <mass>1</mass>
+        </inertial>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='hokuyo_joint' type='fixed'>
+        <parent>chassis</parent>
+        <child>hokuyo_link</child>
+        <pose>0 0 0 0 -0 0</pose>
+      </joint>
+    </model>
+    <light name='user_directional_light_0' type='directional'>
+      <pose>1.00186 -0.958533 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <direction>0.1 0.1 -0.9</direction>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>1</cast_shadows>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    <light name='user_directional_light_1' type='directional'>
+      <pose>-0.824597 -1.29851 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <direction>0.1 0.1 -0.9</direction>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>1</cast_shadows>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    <light name='user_directional_light_2' type='directional'>
+      <pose>-0.482094 -1.05082 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <direction>0.1 0.1 -0.9</direction>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>1</cast_shadows>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    <light name='user_directional_light_3' type='directional'>
+      <pose>-0.490253 -1.08654 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <direction>0.1 0.1 -0.9</direction>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>1</cast_shadows>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    <model name='TtfestRoad'>
+      <static>1</static>
+      <link name='link'>
+        <pose>0 0 0 0 -0 0</pose>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://ttfestroad/meshes/road.dae</uri>
+              <scale>1 1 1</scale>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://ttfestroad/meshes/road.dae</uri>
+              <scale>1 1 1</scale>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>1.02256 -2.60892 0 0 -0 0</pose>
+    </model>
+    <state world_name='default'>
+      <sim_time>475 874000000</sim_time>
+      <real_time>79 652471511</real_time>
+      <wall_time>1715987455 357916120</wall_time>
+      <iterations>44383</iterations>
+      <model name='TtfestRoad'>
+        <pose>1.02256 -2.60892 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>1.02256 -2.60892 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='ttfest_bridge'>
+        <pose>-1.7889 1.92779 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='base'>
+          <pose>-1.7889 1.92779 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='ttfest_bridge_0'>
+        <pose>6.32758 -3.44027 0 0 0 -0.64168</pose>
+        <scale>1 1 1</scale>
+        <link name='base'>
+          <pose>6.32758 -3.44027 -0 0 0 -0.64168</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='ttfest_obstacle'>
+        <pose>1.42149 0.228137 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='base'>
+          <pose>1.42149 0.228137 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='ttfest_obstacle_0'>
+        <pose>3.6076 -2.32656 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='base'>
+          <pose>3.6076 -2.32656 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='ttfest_obstacle_1'>
+        <pose>-1.04438 -3.48675 0 0 -0 0.558589</pose>
+        <scale>1 1 1</scale>
+        <link name='base'>
+          <pose>-1.04438 -3.48675 0 0 -0 0.558589</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='ttfest_obstacle_2'>
+        <pose>-4.16952 -2.24609 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='base'>
+          <pose>-4.16952 -2.24609 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='ttfest_traffic_light'>
+        <pose>4.54117 1.39045 0 0 -0 3.14159</pose>
+        <scale>1 1 1</scale>
+        <link name='base_1'>
+          <pose>4.54117 1.39045 0 0 -0 3.14159</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='base_2'>
+          <pose>4.54117 1.39045 0 0 -0 3.14159</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='base_3'>
+          <pose>4.54117 1.39045 0 0 -0 3.14159</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='red_light_1'>
+          <pose>4.48617 1.94045 0.3375 0 1.5707 3.14159</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='red_light_2'>
+          <pose>4.48617 1.74045 0.3375 0 1.5707 3.14159</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='red_light_3'>
+          <pose>4.48617 2.14045 0.3375 0 1.5707 3.14159</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='ttfest_traffic_light_1'>
+        <pose>4.5965 2.48238 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='base_1'>
+          <pose>4.5965 2.48238 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='base_2'>
+          <pose>4.5965 2.48238 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='base_3'>
+          <pose>4.5965 2.48238 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='red_light_1'>
+          <pose>4.6515 1.93238 0.3375 0 1.5707 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='red_light_2'>
+          <pose>4.6515 2.13238 0.3375 0 1.5707 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='red_light_3'>
+          <pose>4.6515 1.73238 0.3375 0 1.5707 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='ttfestcar'>
+        <pose>5.51372 2.15446 1e-05 5.8e-05 5e-06 -1.54922</pose>
+        <scale>1 1 1</scale>
+        <link name='camera_link'>
+          <pose>5.36974 2.15136 0.119502 -4e-06 5.8e-05 -3.11922</pose>
+          <velocity>0.000552 -0.000745 -0.000327 0.001705 0.00546 0.000265</velocity>
+          <acceleration>0.154527 0.190648 -9.67023 -3.00144 1.16855 -2.66811</acceleration>
+          <wrench>0.015453 0.019065 -0.967023 0 -0 0</wrench>
+        </link>
+        <link name='caster_wheel'>
+          <pose>5.33726 2.15066 0.011 -0.421001 0.301993 -1.57853</pose>
+          <velocity>-3.3e-05 -0.000655 1.7e-05 0.059559 -0.003044 -0.022076</velocity>
+          <acceleration>-0.031316 0.075139 -9.09062 2.47283 -0.301337 -3.14159</acceleration>
+          <wrench>-0.156578 0.375693 -45.4531 0 -0 0</wrench>
+        </link>
+        <link name='chassis'>
+          <pose>5.51371 2.15446 0.02201 5.8e-05 5e-06 -1.54922</pose>
+          <velocity>2.2e-05 -0.000693 -0.000948 0.00172 0.005416 -4.2e-05</velocity>
+          <acceleration>-0.022695 0.032697 -9.51878 3.10864 -1.02517 3.10651</acceleration>
+          <wrench>-0.226954 0.326968 -95.1878 0 -0 0</wrench>
+        </link>
+        <link name='hokuyo_link'>
+          <pose>5.51372 2.15446 1e-05 5.7e-05 5e-06 -1.54922</pose>
+          <velocity>-9.2e-05 -0.000651 -0.000948 0.001603 0.005196 3.6e-05</velocity>
+          <acceleration>-0.050333 0.044887 -9.5176 -0.050594 1.32291 0.111125</acceleration>
+          <wrench>-0.050333 0.044887 -9.5176 0 -0 0</wrench>
+        </link>
+        <link name='left_wheel'>
+          <pose>5.51143 2.26044 0.044011 1.53416 1.5503 -0.015068</pose>
+          <velocity>0.000147 -0.000769 -0.000744 -0.008558 0.005194 -4.1e-05</velocity>
+          <acceleration>0.030086 -0.05868 -9.50145 0.71842 -1.35744 0.086522</acceleration>
+          <wrench>0.300862 -0.586803 -95.0145 0 -0 0</wrench>
+        </link>
+        <link name='right_wheel'>
+          <pose>5.516 2.04849 0.04401 -1.5679 1.31872 -3.11701</pose>
+          <velocity>0.000138 -0.000751 -0.001162 -0.009049 0.005183 -9.5e-05</velocity>
+          <acceleration>0.018004 -0.033275 -9.56419 0.026089 -1.47721 0.067185</acceleration>
+          <wrench>0.180035 -0.332753 -95.6419 0 -0 0</wrench>
+        </link>
+      </model>
+      <light name='sun'>
+        <pose>0 0 10 0 -0 0</pose>
+      </light>
+      <light name='user_directional_light_0'>
+        <pose>1.00186 -0.958533 1 1.57 -0 0</pose>
+      </light>
+      <light name='user_directional_light_1'>
+        <pose>-0.824597 -1.29851 1 -1.57 -0 0</pose>
+      </light>
+      <light name='user_directional_light_2'>
+        <pose>-0.482094 -1.05082 1 0 -1.57 0</pose>
+      </light>
+      <light name='user_directional_light_3'>
+        <pose>-0.490253 -1.08654 1 0 1.57 0</pose>
+      </light>
+    </state>
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>7.44798 1.93072 1.62152 0 0.569796 3.05221</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+    <model name='ttfest_traffic_light_1'>
+      <static>1</static>
+      <link name='base_1'>
+        <gravity>1</gravity>
+        <pose>0 0 0 0 -0 0</pose>
+        <visual name='visual'>
+          <pose>0 0 0.15 0 -0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.5</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+            <diffuse>0 0 0 1</diffuse>
+            <specular>0 0 0 1</specular>
+          </material>
+        </visual>
+        <collision name='collision'>
+          <pose>0 0 3.275 0 -0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.5</length>
+            </cylinder>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <link name='base_2'>
+        <gravity>1</gravity>
+        <pose>0 0 0 0 -0 0</pose>
+        <visual name='visual'>
+          <pose>0 -1.1 0.15 0 -0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.5</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+            <diffuse>0 0 0 1</diffuse>
+            <specular>0 0 0 1</specular>
+          </material>
+        </visual>
+        <collision name='collision'>
+          <pose>0 0 3.275 0 -0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.5</length>
+            </cylinder>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <link name='base_3'>
+        <gravity>1</gravity>
+        <pose>0 0 0 0 -0 0</pose>
+        <visual name='visual'>
+          <pose>0 -0.55 0.3375 1.57 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.125 1.1</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+            <diffuse>0 0 0 1</diffuse>
+            <specular>0 0 0 1</specular>
+          </material>
+        </visual>
+        <collision name='collision'>
+          <pose>0 0 3.275 0 -0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>1.1</length>
+            </cylinder>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <link name='red_light_1'>
+        <gravity>0</gravity>
+        <pose>0.055 -0.55 0.3375 0 1.5707 0</pose>
+        <collision name='collision'>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.05</length>
+            </cylinder>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='red'>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.05</length>
+            </cylinder>
+          </geometry>
+          <transparency>0.4</transparency>
+          <material>
+            <ambient>1 0 0 1</ambient>
+            <diffuse>0 0 0 1</diffuse>
+            <specular>0 0 0 1</specular>
+            <emissive>0 0 0 1</emissive>
+          </material>
+        </visual>
+        <light name='red' type='spot'>
+          <pose>0 0 0 3.14159 3e-06 3.14159</pose>
+          <attenuation>
+            <range>1</range>
+            <linear>0.05</linear>
+          </attenuation>
+          <diffuse>0 0 0 1</diffuse>
+          <specular>0 0 0 1</specular>
+          <spot>
+            <inner_angle>0.3</inner_angle>
+            <outer_angle>0.35</outer_angle>
+            <falloff>1</falloff>
+          </spot>
+          <direction>0 0 -1</direction>
+        </light>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <link name='red_light_3'>
+        <gravity>0</gravity>
+        <pose>0.055 -0.75 0.3375 0 1.5707 0</pose>
+        <collision name='collision'>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.05</length>
+            </cylinder>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='red'>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.05</length>
+            </cylinder>
+          </geometry>
+          <transparency>0.4</transparency>
+          <material>
+            <ambient>1 0 0 1</ambient>
+            <diffuse>0 0 0 1</diffuse>
+            <specular>0 0 0 1</specular>
+            <emissive>0 0 0 1</emissive>
+          </material>
+        </visual>
+        <light name='red' type='spot'>
+          <pose>0 0 0 3.14159 3e-06 3.14159</pose>
+          <attenuation>
+            <range>1</range>
+            <linear>0.05</linear>
+          </attenuation>
+          <diffuse>0 0 0 1</diffuse>
+          <specular>0 0 0 1</specular>
+          <spot>
+            <inner_angle>0.3</inner_angle>
+            <outer_angle>0.35</outer_angle>
+            <falloff>1</falloff>
+          </spot>
+          <direction>0 0 -1</direction>
+        </light>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <link name='red_light_2'>
+        <gravity>0</gravity>
+        <pose>0.055 -0.35 0.3375 0 1.5707 0</pose>
+        <collision name='collision'>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.05</length>
+            </cylinder>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='red'>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.05</length>
+            </cylinder>
+          </geometry>
+          <transparency>0.4</transparency>
+          <material>
+            <ambient>1 0 0 1</ambient>
+            <diffuse>0 0 0 1</diffuse>
+            <specular>0 0 0 1</specular>
+            <emissive>0 0 0 1</emissive>
+          </material>
+        </visual>
+        <light name='red' type='spot'>
+          <pose>0 0 0 3.14159 3e-06 3.14159</pose>
+          <attenuation>
+            <range>1</range>
+            <linear>0.05</linear>
+          </attenuation>
+          <diffuse>0 0 0 1</diffuse>
+          <specular>0 0 0 1</specular>
+          <spot>
+            <inner_angle>0.3</inner_angle>
+            <outer_angle>0.35</outer_angle>
+            <falloff>1</falloff>
+          </spot>
+          <direction>0 0 -1</direction>
+        </light>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <plugin name='light_control' filename='libLedPlugin.so'>
+        <enable>1</enable>
+        <light>
+          <id>red_light_1/red</id>
+          <duration>4</duration>
+          <interval>4</interval>
+          <color>1 0 0</color>
+        </light>
+        <light>
+          <id>red_light_2/red</id>
+          <duration>4</duration>
+          <interval>4</interval>
+          <color>1 0 0</color>
+        </light>
+        <light>
+          <id>red_light_3/red</id>
+          <duration>4</duration>
+          <interval>4</interval>
+          <color>1 0 0</color>
+        </light>
+      </plugin>
+      <pose>4.92537 2.48238 0 0 -0 0</pose>
+    </model>
+    <model name='ttfest_traffic_light'>
+      <static>1</static>
+      <link name='base_1'>
+        <gravity>1</gravity>
+        <pose>0 0 0 0 -0 0</pose>
+        <visual name='visual'>
+          <pose>0 0 0.15 0 -0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.5</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+            <diffuse>0 0 0 1</diffuse>
+            <specular>0 0 0 1</specular>
+          </material>
+        </visual>
+        <collision name='collision'>
+          <pose>0 0 3.275 0 -0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.5</length>
+            </cylinder>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <link name='base_2'>
+        <gravity>1</gravity>
+        <pose>0 0 0 0 -0 0</pose>
+        <visual name='visual'>
+          <pose>0 -1.1 0.15 0 -0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.5</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+            <diffuse>0 0 0 1</diffuse>
+            <specular>0 0 0 1</specular>
+          </material>
+        </visual>
+        <collision name='collision'>
+          <pose>0 0 3.275 0 -0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.5</length>
+            </cylinder>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <link name='base_3'>
+        <gravity>1</gravity>
+        <pose>0 0 0 0 -0 0</pose>
+        <visual name='visual'>
+          <pose>0 -0.55 0.3375 1.57 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.125 1.1</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+            <diffuse>0 0 0 1</diffuse>
+            <specular>0 0 0 1</specular>
+          </material>
+        </visual>
+        <collision name='collision'>
+          <pose>0 0 3.275 0 -0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>1.1</length>
+            </cylinder>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <link name='red_light_1'>
+        <gravity>0</gravity>
+        <pose>0.055 -0.55 0.3375 0 1.5707 0</pose>
+        <collision name='collision'>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.05</length>
+            </cylinder>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='red'>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.05</length>
+            </cylinder>
+          </geometry>
+          <transparency>0.4</transparency>
+          <material>
+            <ambient>1 0 0 1</ambient>
+            <diffuse>0 0 0 1</diffuse>
+            <specular>0 0 0 1</specular>
+            <emissive>0 0 0 1</emissive>
+          </material>
+        </visual>
+        <light name='red' type='spot'>
+          <pose>0 0 0 3.14159 3e-06 3.14159</pose>
+          <attenuation>
+            <range>1</range>
+            <linear>0.05</linear>
+          </attenuation>
+          <diffuse>0 0 0 1</diffuse>
+          <specular>0 0 0 1</specular>
+          <spot>
+            <inner_angle>0.3</inner_angle>
+            <outer_angle>0.35</outer_angle>
+            <falloff>1</falloff>
+          </spot>
+          <direction>0 0 -1</direction>
+        </light>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <link name='red_light_3'>
+        <gravity>0</gravity>
+        <pose>0.055 -0.75 0.3375 0 1.5707 0</pose>
+        <collision name='collision'>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.05</length>
+            </cylinder>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='red'>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.05</length>
+            </cylinder>
+          </geometry>
+          <transparency>0.4</transparency>
+          <material>
+            <ambient>1 0 0 1</ambient>
+            <diffuse>0 0 0 1</diffuse>
+            <specular>0 0 0 1</specular>
+            <emissive>0 0 0 1</emissive>
+          </material>
+        </visual>
+        <light name='red' type='spot'>
+          <pose>0 0 0 3.14159 3e-06 3.14159</pose>
+          <attenuation>
+            <range>1</range>
+            <linear>0.05</linear>
+          </attenuation>
+          <diffuse>0 0 0 1</diffuse>
+          <specular>0 0 0 1</specular>
+          <spot>
+            <inner_angle>0.3</inner_angle>
+            <outer_angle>0.35</outer_angle>
+            <falloff>1</falloff>
+          </spot>
+          <direction>0 0 -1</direction>
+        </light>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <link name='red_light_2'>
+        <gravity>0</gravity>
+        <pose>0.055 -0.35 0.3375 0 1.5707 0</pose>
+        <collision name='collision'>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.05</length>
+            </cylinder>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='red'>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.05</length>
+            </cylinder>
+          </geometry>
+          <transparency>0.4</transparency>
+          <material>
+            <ambient>1 0 0 1</ambient>
+            <diffuse>0 0 0 1</diffuse>
+            <specular>0 0 0 1</specular>
+            <emissive>0 0 0 1</emissive>
+          </material>
+        </visual>
+        <light name='red' type='spot'>
+          <pose>0 0 0 3.14159 3e-06 3.14159</pose>
+          <attenuation>
+            <range>1</range>
+            <linear>0.05</linear>
+          </attenuation>
+          <diffuse>0 0 0 1</diffuse>
+          <specular>0 0 0 1</specular>
+          <spot>
+            <inner_angle>0.3</inner_angle>
+            <outer_angle>0.35</outer_angle>
+            <falloff>1</falloff>
+          </spot>
+          <direction>0 0 -1</direction>
+        </light>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <plugin name='light_control' filename='libLedPlugin.so'>
+        <enable>1</enable>
+        <light>
+          <id>red_light_1/red</id>
+          <duration>4</duration>
+          <interval>4</interval>
+          <color>1 0 0</color>
+        </light>
+        <light>
+          <id>red_light_2/red</id>
+          <duration>4</duration>
+          <interval>4</interval>
+          <color>1 0 0</color>
+        </light>
+        <light>
+          <id>red_light_3/red</id>
+          <duration>4</duration>
+          <interval>4</interval>
+          <color>1 0 0</color>
+        </light>
+      </plugin>
+      <pose>4.54117 2.45341 0 0 -0 0</pose>
+    </model>
+    <model name='ttfest_bridge'>
+      <static>1</static>
+      <link name='base'>
+        <pose>0 0 0 0 -0 0</pose>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://ttfest_bridge/meshes/untitled.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://ttfest_bridge/meshes/untitled.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>-1.7889 1.92779 0 0 -0 0</pose>
+    </model>
+    <model name='ttfest_obstacle'>
+      <static>1</static>
+      <link name='base'>
+        <pose>0 0 0 0 -0 0</pose>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://ttfest_obstacle/meshes/obstacle.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://ttfest_obstacle/meshes/obstacle.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>1.42149 0.228137 0 0 -0 0</pose>
+    </model>
+    <model name='ttfest_bridge_0'>
+      <static>1</static>
+      <link name='base'>
+        <pose>0 0 0 0 -0 0</pose>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://ttfest_bridge/meshes/untitled.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://ttfest_bridge/meshes/untitled.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>6.14007 -3.19931 0 0 -0 0</pose>
+    </model>
+    <model name='ttfest_obstacle_0'>
+      <static>1</static>
+      <link name='base'>
+        <pose>0 0 0 0 -0 0</pose>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://ttfest_obstacle/meshes/obstacle.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://ttfest_obstacle/meshes/obstacle.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>3.6076 -2.32656 0 0 -0 0</pose>
+    </model>
+    <model name='ttfest_obstacle_1'>
+      <static>1</static>
+      <link name='base'>
+        <pose>0 0 0 0 -0 0</pose>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://ttfest_obstacle/meshes/obstacle.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://ttfest_obstacle/meshes/obstacle.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>-0.82332 -3.41605 0 0 -0 0</pose>
+    </model>
+    <model name='ttfest_obstacle_2'>
+      <static>1</static>
+      <link name='base'>
+        <pose>0 0 0 0 -0 0</pose>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://ttfest_obstacle/meshes/obstacle.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://ttfest_obstacle/meshes/obstacle.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>-4.16952 -2.24609 0 0 -0 0</pose>
+    </model>
+  </world>
+</sdf>

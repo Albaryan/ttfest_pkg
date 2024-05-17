@@ -18,7 +18,7 @@ def generate_launch_description():
 
   pkg_share = FindPackageShare(package='ttfest_pkg').find('ttfest_pkg')
 
-  world_file_name = 'ttfest_world.world'
+  world_file_name = 'ttfest_world_v3.world'
   world_path = os.path.join(pkg_share, 'worlds', world_file_name)
 
   gazebo_models_path = os.path.join(pkg_share, 'models')
