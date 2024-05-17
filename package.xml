@@ -18,6 +18,10 @@
   <depend>cv2</depend>
   <depend>numpy</depend>
   <depend>time</depend>
+  <depend>sys</depend>
+  <depend>select</depend>
+  <depend>tty</depend>
+  <depend>termios</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

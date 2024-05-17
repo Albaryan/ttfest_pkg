@@ -1,34 +1,85 @@
 #!/usr/bin/env python3
 import rclpy
 from rclpy.node import Node
-
-from sensor_msgs.msg import Image
 from geometry_msgs.msg import Twist
+import sys, select
+
+import tty, termios
+  
+msg = """
+Control RasCar!
+---------------------------
+Moving around:
+        w
+   a    s    d
+        x
+
+space key, s : force stop
+
+CTRL-C to quit
+"""
 
 
-class ControlNode(Node):
+
+class RobotNewsStationNode(Node): #MODIFY NAME
     def __init__(self):
-        super().__init__("control_node")
+        super().__init__("robot_news_station") #MODIFY NAME
         
-        self.vel=Twist()
         
-        self.publisher_= self.create_publisher(Twist, "/cmd_vel",10)
+        self.publisher_ = self.create_publisher(Twist, "/cmd_vel",10)
+        msg=Twist()
+              
+        while True:
+
+            self.settings = termios.tcgetattr(sys.stdin)
+            key=self.getKey()
+
+            if key=="w":
+                msg.linear.x+=0.1
+            elif key=="a":
+                msg.angular.z-=0.1
+            elif key=="s":
+                msg.linear.x=0.0
+                msg.angular.z=0.0
+            elif key=="d":
+                msg.angular.z+=0.1
+            elif key=="x":
+                msg.linear.x-=0.1
+            else:
+                if msg.linear.x!=0 and msg.linear.x>0:
+                    msg.linear.x-=0.1
+                elif msg.linear.x!=0 and msg.linear.x<0:
+                    msg.linear.x+=0.1
+                    
+                if msg.angular.z!=0 and msg.angular.z>0:
+                    msg.angular.z-=0.1
+                elif msg.angular.z!=0 and msg.angular.z<0:
+                    msg.angular.z+=0.1
+                
+                if key=="\x03":
+                    break
+
+            self.publisher_.publish(msg)
+            termios.tcsetattr(sys.stdin, termios.TCSADRAIN, self.settings)
+
         
-        self.timer_ = self.create_timer(1, self.publish_car)
-        
-        self.get_logger().info("Robot speed control started")
-        
-    def publish_car(self):
-        self.vel.linear.x=0.5
-        self.vel.angular.z=0.0
-    
-        self.publisher_.publish(self.vel) 
-            
+    def getKey(self):
+
+        tty.setraw(sys.stdin.fileno())
+        rlist, _, _ = select.select([sys.stdin], [], [], 0.1)
+        if rlist:
+            key = sys.stdin.read(1)
+        else:
+            key = ''
+
+        termios.tcsetattr(sys.stdin, termios.TCSADRAIN, self.settings)
+        return key
 
 
 def main(args=None):
+    print(msg)
     rclpy.init(args=args)
-    node = ControlNode()
+    node = RobotNewsStationNode() #MODIFY NAME
     rclpy.spin(node)
     rclpy.shutdown
 

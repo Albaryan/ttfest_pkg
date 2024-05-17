@@ -40,6 +40,18 @@
   
       <link name='chassis'>
         <pose>0 0 0.022 0 0 0</pose>
+
+        <inertial>
+          <mass>10</mass>
+          <inertia>
+            <ixx>0.06793646</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.13221448</iyy>
+            <iyz>0</iyz>
+            <izz>0.07494388</izz>
+          </inertia>
+        </inertial>
   
         <inertial>
           <mass>10</mass>
@@ -136,9 +148,9 @@
         <inertial>
           <mass>5</mass>
           <inertia>
-            <ixx>0.000683</ixx>
-            <iyy>0.000683</iyy>
-            <izz>0.000683</izz>
+            <ixx>0.000242</ixx>
+            <iyy>0.000242</iyy>
+            <izz>0.000242</izz>
           </inertia>
         </inertial>
   
@@ -192,10 +204,13 @@
       <joint name='caster_wheel_joint' type='ball'>
         <parent>chassis</parent>
         <child>caster_wheel</child>
+        <dynamics>
+          <friction>12.031606150200002</friction>
+        </dynamics>
       </joint>
   
       <link name="camera_link">
-        <pose relative_to="chassis">0 -0.144 0.105 0 0 -1.57</pose>
+        <pose relative_to="chassis">0 -0.144 0.0975 0 0 -1.57</pose>
         <inertial>
           <mass>0.1</mass>
           <inertia>
