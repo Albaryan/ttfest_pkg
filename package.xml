@@ -22,6 +22,9 @@
   <depend>select</depend>
   <depend>tty</depend>
   <depend>termios</depend>
+  <depend>matplotlib</depend>
+  <depend>glob</depend>
+  <depend>os</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
