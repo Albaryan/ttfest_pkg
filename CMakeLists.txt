@@ -21,7 +21,7 @@ find_package(rclpy REQUIRED)
 include_directories(include)
 include_directories(ttfest_pkg)
 
-install (DIRECTORY include launch models scripts src ttfest_pkg worlds lane_following
+install (DIRECTORY include launch models scripts src ttfest_pkg worlds
   DESTINATION share/${PROJECT_NAME}
 )
 
