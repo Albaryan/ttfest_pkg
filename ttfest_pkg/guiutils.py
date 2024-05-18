@@ -229,7 +229,7 @@ class LaneDetector:
         s_LBot2, s_RBot2 = [110, c_rows], [c_cols - 110, c_rows]
 
         src = np.float32([s_LBot2, s_LTop2, s_RTop2, s_RBot2])
-        dst = np.float32([(170, 720), (170, 0), (550, 0), (550, 720)])
+        dst = np.float32([(50, 20), (2, 0), (120, 150), (550, 720)])
 
         warp_img, M, Minv = get_perspective_transform(combined_result, src, dst, (720, 720))
 

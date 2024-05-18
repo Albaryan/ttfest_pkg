@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 import matplotlib.image as mpimg
-
+from PIL import Image
 
 
 # Define a class to receive the characteristics of each line detection
@@ -255,7 +255,29 @@ def line_search_reset(binary_img, left_lane, right_line):
     measure_curvature(left_lane, right_line)
     
     return out_img
+def find_missing_lane(binary_img, left_line, right_line):
+    
+ 
+    # İkinci dereceden polinom fit kullanarak sol şeridi tahmin etme
+    if not left_line.detected:
+        right_fit = right_line.current_fit
+        left_fit = np.array([right_fit[0], right_fit[1], right_fit[2] - right_line.window_margin * 2])
+    else:
+        left_fit = left_line.current_fit
 
+    # İkinci dereceden polinom fit kullanarak sağ şeridi tahmin etme
+    if not right_line.detected:
+        left_fit = left_line.current_fit
+        right_fit = np.array([left_fit[0], left_fit[1], left_fit[2] + right_line.window_margin * 2])
+    else:
+        right_fit = right_line.current_fit
+
+    # Bulunan sol ve sağ şeritlerin x ve y değerlerini hesaplayın
+    ploty = np.linspace(0, binary_img.shape[0] - 1, binary_img.shape[0])
+    left_plotx = left_fit[0] * ploty ** 2 + left_fit[1] * ploty + left_fit[2]
+    right_plotx = right_fit[0] * ploty ** 2 + right_fit[1] * ploty + right_fit[2]
+
+    return left_plotx, right_plotx, ploty
 
 def line_search_tracking(b_img, left_line, right_line):
     """
@@ -351,6 +373,26 @@ def line_search_tracking(b_img, left_line, right_line):
     
     return out_img
 
+def line_search_tracking_with_mirror(binary_img, left_line, right_line):
+   #aynalama
+    out_img = np.dstack((binary_img, binary_img, binary_img)) * 255
+
+    left_plotx, right_plotx, ploty = find_missing_lane(binary_img, left_line, right_line)
+
+    left_lane_window1 = np.array([np.transpose(np.vstack([left_plotx - left_line.window_margin / 4, ploty]))])
+    left_lane_window2 = np.array([np.flipud(np.transpose(np.vstack([left_plotx + left_line.window_margin / 4, ploty])))])
+    left_lane_pts = np.hstack((left_lane_window1, left_lane_window2))
+    right_lane_window1 = np.array([np.transpose(np.vstack([right_plotx - right_line.window_margin / 4, ploty]))])
+    right_lane_window2 = np.array([np.flipud(np.transpose(np.vstack([right_plotx + right_line.window_margin / 4, ploty])))])
+    right_lane_pts = np.hstack((right_lane_window1, right_lane_window2))
+
+    cv2.fillPoly(out_img, np.int_([left_lane_pts]), (0, 255, 0))
+    cv2.fillPoly(out_img, np.int_([right_lane_pts]), (0, 255, 0))
+
+    left_line.startx, right_line.startx = left_plotx[0], right_plotx[0]
+    left_line.endx, right_line.endx = left_plotx[-1], right_plotx[-1]
+
+    return out_img
 
 def get_lane_lines_img(binary_img, left_line, right_line):
     """
@@ -365,8 +407,54 @@ def get_lane_lines_img(binary_img, left_line, right_line):
         return line_search_reset(binary_img, left_line, right_line)
     else:
         return line_search_tracking(binary_img, left_line, right_line)
+def get_lane_lines_img_with_mirror(binary_img, left_line, right_line):
+    """
+    #---------------------
+    # Bu fonksiyon, belirli bir eşiği aşan değerler için piksel bilgisini kullanarak sol ve sağ şeritleri belirler.
+    #
+    """
+    if left_line.detected == False or right_line.detected == False:
+        return line_search_reset(binary_img, left_line, right_line)
+    else:
+        return line_search_tracking_with_mirror(binary_img, left_line, right_line)
 
+def illustrate_driving_lane(img, left_line, right_line, lane_color=(255, 0, 255), road_color=(0, 255, 0)):
+    """ 
+    #---------------------
+    # This function draws lane lines and drivable area on the road
+    # 
+    """
 
+    # Create an empty image to draw on
+    window_img = np.zeros_like(img)
+
+    window_margin = left_line.window_margin
+    left_plotx, right_plotx = left_line.allx, right_line.allx
+    ploty = left_line.ally
+
+    # Generate a polygon to illustrate the search window area
+    # And recast the x and y points into usable format for cv2.fillPoly()
+    left_line_window1 = np.array([np.transpose(np.vstack([left_plotx - window_margin/5, ploty]))])
+    left_line_window2 = np.array([np.flipud(np.transpose(np.vstack([left_plotx + window_margin/5, ploty])))])
+    left_line_pts = np.hstack((left_line_window1, left_line_window2))
+    right_line_window1 = np.array([np.transpose(np.vstack([right_plotx - window_margin/5, ploty]))])
+    right_line_window2 = np.array([np.flipud(np.transpose(np.vstack([right_plotx + window_margin/5, ploty])))])
+    right_line_pts = np.hstack((right_line_window1, right_line_window2))
+
+    # Draw the lane onto the warped blank image
+    cv2.fillPoly(window_img, np.int_([left_line_pts]), lane_color)
+    cv2.fillPoly(window_img, np.int_([right_line_pts]), lane_color)
+
+    # Recast the x and y points into usable format for cv2.fillPoly()
+    pts_left = np.array([np.transpose(np.vstack([left_plotx+window_margin/5, ploty]))])
+    pts_right = np.array([np.flipud(np.transpose(np.vstack([right_plotx-window_margin/5, ploty])))])
+    pts = np.hstack((pts_left, pts_right))
+
+    # Draw the lane onto the warped blank image
+    cv2.fillPoly(window_img, np.int_([pts]), road_color)
+    result = cv2.addWeighted(img, 1, window_img, 0.3, 0)
+
+    return result, window_img
 
 
 def get_measurements(left_line, right_line):
@@ -431,14 +519,83 @@ def get_measurements(left_line, right_line):
     return road_info, curvature, deviation
 
 
+#def illustrate_info_panel(img, left_line, right_line):
+    """
+    #---------------------
+    # This function illustrates details below in a panel on top left corner.
+    # - Lane is curving Left/Right
+    # - Radius of Curvature:
+    # - Deviating Left/Right by _% from center.
+    #
+    """
 
+    road_info, curvature, deviation = get_measurements(left_line, right_line)
+    cv2.putText(img, 'Measurements ', (75, 30), cv2.FONT_HERSHEY_COMPLEX, 0.8, (80, 80, 80), 2)
 
+    lane_info = 'Lane is ' + road_info
+    if curvature == -1:
+        lane_curve = 'Radius of Curvature : <Straight line>'
+    else:
+        lane_curve = 'Radius of Curvature : {0:0.3f}m'.format(curvature)
+    #deviate = 'Deviating ' + deviation  # deviating how much from center, in %
+    deviate = 'Distance from Center : ' + deviation  # deviating how much from center
 
+    cv2.putText(img, lane_info, (10, 63), cv2.FONT_HERSHEY_SIMPLEX, 0.50, (100, 100, 100), 1)
+    cv2.putText(img, lane_curve, (10, 83), cv2.FONT_HERSHEY_SIMPLEX, 0.50, (100, 100, 100), 1)
+    cv2.putText(img, deviate, (10, 103), cv2.FONT_HERSHEY_SIMPLEX, 0.50, (100, 100, 100), 1)
 
+    return img
 
+#def illustrate_driving_lane_with_topdownview(image, left_line, right_line):
+    """
+    #---------------------
+    # This function illustrates top down view of the car on the road.
+    #  
+    """
 
+    img = cv2.imread('examples/ferrari.png', -1)
+    img = cv2.resize(img, (120, 246))
 
+    rows, cols = image.shape[:2]
+    window_img = np.zeros_like(image)
 
-
-
+    window_margin = left_line.window_margin
+    left_plotx, right_plotx = left_line.allx, right_line.allx
+    ploty = left_line.ally
+    lane_width = right_line.startx - left_line.startx
+    lane_center = (right_line.startx + left_line.startx) / 2
+    lane_offset = cols / 2 - (2*left_line.startx + lane_width) / 2
+    car_offset = int(lane_center - 360)
     
+    # Generate a polygon to illustrate the search window area
+    # And recast the x and y points into usable format for cv2.fillPoly()
+    left_line_window1 = np.array([np.transpose(np.vstack([right_plotx + lane_offset - lane_width - window_margin / 4, ploty]))])
+    left_line_window2 = np.array([np.flipud(np.transpose(np.vstack([right_plotx + lane_offset - lane_width+ window_margin / 4, ploty])))])
+    left_line_pts = np.hstack((left_line_window1, left_line_window2))
+    right_line_window1 = np.array([np.transpose(np.vstack([right_plotx + lane_offset - window_margin / 4, ploty]))])
+    right_line_window2 = np.array([np.flipud(np.transpose(np.vstack([right_plotx + lane_offset + window_margin / 4, ploty])))])
+    right_line_pts = np.hstack((right_line_window1, right_line_window2))
+
+    # Draw the lane onto the warped blank image
+    cv2.fillPoly(window_img, np.int_([left_line_pts]), (140, 0, 170))
+    cv2.fillPoly(window_img, np.int_([right_line_pts]), (140, 0, 170))
+
+    # Recast the x and y points into usable format for cv2.fillPoly()
+    pts_left = np.array([np.transpose(np.vstack([right_plotx + lane_offset - lane_width + window_margin / 4, ploty]))])
+    pts_right = np.array([np.flipud(np.transpose(np.vstack([right_plotx + lane_offset - window_margin / 4, ploty])))])
+    pts = np.hstack((pts_left, pts_right))
+
+    # Draw the lane onto the warped blank image
+    cv2.fillPoly(window_img, np.int_([pts]), (0, 160, 0))
+
+    #window_img[10:133,300:360] = img
+    road_map = Image.new('RGBA', image.shape[:2], (0, 0, 0, 0))
+    window_img = Image.fromarray(window_img)
+    img = Image.fromarray(img)
+    road_map.paste(window_img, (0, 0))
+    road_map.paste(img, (300-car_offset, 590), mask=img)
+    road_map = np.array(road_map)
+    road_map = cv2.resize(road_map, (95, 95))
+    road_map = cv2.cvtColor(road_map, cv2.COLOR_BGRA2BGR)
+
+    return road_map
