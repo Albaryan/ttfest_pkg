@@ -4,9 +4,9 @@ from rclpy.node import Node
 
 from sensor_msgs.msg import LaserScan
 
-class CameraNode(Node):
+class LidarNode(Node):
     def __init__(self):
-        super().__init__("camera_node")
+        super().__init__("lidar_node")
         self.subscriber_ = self.create_subscription(LaserScan, "/lidar/data", self.callback_lidar, 10)
                 
         self.get_logger().info("Lidar node has started.")
@@ -18,7 +18,7 @@ class CameraNode(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-    node = CameraNode()
+    node = LidarNode()
     rclpy.spin(node)
     rclpy.shutdown
 
