@@ -27,3 +27,7 @@
    ros2 run ttfest_pkg lidar_node.py
 ```
 
+## Şerit takibini çalıştırmak için
+```bash
+   ros2 run ttfest_pkg lane_following_node.py
+```

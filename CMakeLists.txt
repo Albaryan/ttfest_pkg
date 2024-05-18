@@ -19,8 +19,9 @@ find_package(rclpy REQUIRED)
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 include_directories(include)
+include_directories(ttfest_pkg)
 
-install (DIRECTORY include launch models scripts src ttfest_pkg worlds
+install (DIRECTORY include launch models scripts src ttfest_pkg worlds lane_following
   DESTINATION share/${PROJECT_NAME}
 )
 
@@ -30,6 +31,7 @@ install(PROGRAMS
 	scripts/camera_node.py
 	scripts/control_node.py
   scripts/lidar_node.py
+  scripts/lane_following_node.py
 	DESTINATION lib/${PROJECT_NAME}
 )
 
