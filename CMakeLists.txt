@@ -33,6 +33,7 @@ install(PROGRAMS
   scripts/lidar_node.py
   scripts/lane_following_node.py
   scripts/lidar_visualize_node.py
+  scripts/red_light_detection_node.py
 	DESTINATION lib/${PROJECT_NAME}
 )
 
