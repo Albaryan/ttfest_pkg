@@ -17,7 +17,7 @@ from pid_controller import PIDController
 #input_type = 'video' 
 input_type = 'frame_by_frame'
 
-input_name = 'drive.mp4'
+input_name = '/home/ayberk/ros2_ws/src/ttfest_pkg/serit_takip.mp4'
 #input_name = 'test_images/calibration1.jpg'
 #input_name = 'project_video.mp4' 
 #input_name = 'challenge_video.mp4'
@@ -66,7 +66,7 @@ def pipeline(frame):
     s_LBot2, s_RBot2 = [110, c_rows], [c_cols - 110, c_rows]
 
     src = np.float32([s_LBot2, s_LTop2, s_RTop2, s_RBot2])
-    dst = np.float32([(170, 720), (170, 0), (550, 0), (550, 720)])
+    dst = np.float32([(20, 50), (170, 0), (550, 0), (550, 720)])
 
     warp_img, M, Minv = get_perspective_transform(combined_result, src, dst, (720, 720))
 
