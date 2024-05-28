@@ -55,15 +55,16 @@ def get_combined_hls(img, th_h, th_l, th_s):
     yellow_lower = np.array([15, 38, 115], dtype=np.uint8)
     yellow_upper = np.array([35, 204, 255], dtype=np.uint8)
     white_lower = np.array([0, 200, 0], dtype=np.uint8)
-    white_upper = np.array([255, 255, 255], dtype=np.uint8)
+    white_upper = np.array([0, 255, 255], dtype=np.uint8)
     yellow_mask = cv2.inRange(hls, yellow_lower, yellow_upper)
     white_mask = cv2.inRange(hls, white_lower, white_upper)
-    combined_mask = cv2.bitwise_or(yellow_mask, white_mask)
+    #combined_mask = cv2.bitwise_or(yellow_mask, white_mask)
+    combined_mask=white_mask
     hls_comb = np.zeros_like(s_channel).astype(np.uint8)
     hls_comb[((s_channel > 1) & (l_channel == 0)) | 
              ((s_channel == 0) & (h_channel > 1) & (l_channel > 1)) | 
              (combined_mask > 1)] = 255
-    return hls_comb
+    return combined_mask
 
 def combine_grad_hls(grad, hls):
     result = np.zeros_like(hls).astype(np.uint8)

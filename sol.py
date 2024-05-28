@@ -8,9 +8,10 @@ import cv2
 import numpy as np
 from ttfest_pkg.camera_calibration import calib, undistort
 from ttfest_pkg.threshold import get_combined_gradients, get_combined_hls, combine_grad_hls
-from ttfest_pkg.line import Line, get_perspective_transform, line_search_tracking_left, line_search_tracking_right, detect_left_lane, detect_right_lane, process_image
+from ttfest_pkg.line import Line, get_perspective_transform, line_search_reset, process_image
 from ttfest_pkg.pid_controller import PIDController
 from geometry_msgs.msg import Twist
+
 
 class LaneFollowingNode(Node):
     def __init__(self):
@@ -39,7 +40,7 @@ class LaneFollowingNode(Node):
         self.th_s_max = 255
 
         # PID Controller parameters
-        self.Kp = 0.015
+        self.Kp = 0.020
         self.Ki = 0.0
         self.Kd = 0.05
         self.center_car = 414 / 2
@@ -144,36 +145,43 @@ class LaneFollowingNode(Node):
         cv2.imshow("Warped Image", warp_img)
 
         # Process image to find and track lane lines
-        out_img = self.process_image(warp_img, self.left_line, self.right_line)
-
-        cv2.imshow("Lane Tracking", out_img)
-
+        
+        searching_img = process_image(warp_img, self.left_line, self.right_line)
+        cv2.imshow("b", searching_img)
+        # Add lane lines to the original image
+        lane_color = np.zeros_like(cv_image)
+        result = cv2.addWeighted(cv_image, 1, lane_color, 0.3, 0)
         # Calculate current position and steering error
-        if self.left_line.detected:
-            current_position = self.left_line.startx + 150
-        elif self.right_line.detected:
+        if self.left_line.detected and self.right_line.detected:
+            current_position = (self.left_line.startx + self.right_line.startx) / 2
+        elif self.left_line.detected and not self.right_line.detected:
+            current_position = self.left_line.startx + 100
+        elif self.right_line.detected and not self.left_line.detected:
             current_position = self.right_line.startx - 100
         else:
             current_position = self.setpoint  
 
-        error = self.setpoint - current_position
 
+
+
+        error = self.setpoint - current_position
         # Update PID controller and publish control message
         steering_angle = self.pid_controller.update(error)
         controlMsg.angular.z = -steering_angle
         controlMsg.linear.x = 0.4
         self.publisher_.publish(controlMsg)
-
         # Draw visual aids
-        result = np.copy(cv_image)
         cv2.line(result, (int(self.setpoint), 3 * result.shape[0] // 4), (int(current_position), 3 * result.shape[0] // 4), (0, 255, 0), 5)
         cv2.line(result, (int(self.setpoint), 3 * result.shape[0] // 4), (int(self.setpoint - steering_angle), 3 * result.shape[0] // 4), (0, 0, 255), 5)
-        
+
         cv2.imshow("Result", result)
 
         key = cv2.waitKey(1)
         if key == 27:  # Press 'Esc' to exit
             rclpy.shutdown()
+
+
+
 
 def main(args=None):
     rclpy.init(args=args)
